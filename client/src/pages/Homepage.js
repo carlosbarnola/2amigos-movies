@@ -259,7 +259,7 @@ const Homepage = () => {
         <>
             <Jumbotron fluid className="text-light bg-dark">
                 <Container>
-                    <h1>Welcome to FanTinder!</h1>
+                    <h1>Welcome to 4amigos-movies!</h1>
                     {Auth.loggedIn()
                         ? <h4>A swipe right saves a movie. A swipe left passes.</h4>
                         : <h4>Swipe or click through this week's trending movies.</h4>
