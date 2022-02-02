@@ -14,7 +14,7 @@ import Footer from './components/Footer';
 import { FantinderProvider } from "./utils/GlobalState";
 
 // stylesheets
-import './App.scss';
+import './App.css';
 
 const client = new ApolloClient({
     request: operation => {
