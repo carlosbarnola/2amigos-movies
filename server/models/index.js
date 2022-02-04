@@ -1,3 +1,5 @@
 const User = require('./User');
-const Movie = require('./Movie');
-module.exports = { User, Movie };
+const Movies = require('./Movies');
+const Review = require('./Review')
+
+module.exports = { User, Movies, Review };

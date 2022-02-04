@@ -1,46 +1,44 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
-export const GET_USER = gql`
-  {
-    me {
+export const QUERY_USER = gql`
+  query user($username: String!) {
+    user(username: $username) {
       _id
       username
       email
+      friendCount
       friends {
         _id
+        username
       }
-      likedMovies{
+      thoughts {
         _id
-        externalMovieId
-        rating
-        voteCount
-        title
-        overview
-        releaseDate
-        poster
-        trailer
-        likedUsers {
-          _id
-          username
-          email
-        }
-      }
-      dislikedMovies{
-        _id
-        externalMovieId
-        rating
-        voteCount
-        title
-        overview
-        releaseDate
-        poster
-        trailer
-        likedUsers {
-          _id
-          username
-          email
-        }
+        thoughtText
+        createdAt
+        reactionCount
       }
     }
   }
 `;
+
+export const QUERY_MOVIES = gql`
+  query movies {
+    movies{
+      _id
+      movieTitle
+      movieUrl
+      moviePicUrl
+    }
+  }
+`;
+
+export const QUERY_MOVIE = gql`
+query movie($id: ID) {
+  movie(_id: $id) {
+    _id
+    movieTitle
+    movieUrl
+    moviePicUrl   
+  }
+}
+`
