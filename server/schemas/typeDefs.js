@@ -1,53 +1,72 @@
+// import the gql tagged template function
 const { gql } = require('apollo-server-express');
 
+// create our typeDefs
 const typeDefs = gql`
-  type Category {
+  type Thought {
     _id: ID
-    name: String
+    thoughtText: String
+    createdAt: String
+    username: String
+    reactionCount: Int
+    reactions: [Reaction]
   }
 
-  type Movies {
+  type Reaction {
     _id: ID
-    name: String
-    description: String
-    image: String
-    reviews: String
-    price: Float
-    category: Category
-  }
-
-  type Review {
-    _id: ID
-    description: String
+    reactionBody: String
+    createdAt: String
+    username: String
   }
 
   type User {
     _id: ID
-    firstName: String
-    lastName: String
+    username: String
     email: String
+    friendCount: Int
+    thoughts: [Thought]
+    friends: [User]
   }
 
-  type Auth {
-    token: ID
-    user: User
+  type Movies {
+    _id: ID
+    movieTitle: String
+    movieUrl: String
+    moviePicUrl: String
+  }
+
+  type Review {
+    _id: ID
+    reviewBody: String
+    username: String
+    createAt: String
   }
 
   type Query {
-    categories: [Category]
-    movies(category: ID, name: String): [Movie]
-    product(_id: ID!): Product
-    user: User
-    order(_id: ID!): Order
+    me: User
+    users: [User]
+    user(username: String!): User
+    thoughts(username: String): [Thought]
+    thought(_id: ID!): Thought
+    movies: [Movies]
+    movie(_id: ID): Movies
+ 
   }
 
   type Mutation {
-    addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
-    addReview(products: [ID]!):
-    updateUser(firstName: String, lastName: String, email: String, password: String): User
-    updateReview(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, password: String!): Auth
+    addThought(thoughtText: String!): Thought
+    addReaction(thoughtId: ID!, reactionBody: String!): Thought
+    addFriend(friendId: ID!): User
+    addMovie(movieTitle: String!, movieUrl: String!, moviePicUrl: String!): Movies
+  }
+
+  type Auth {
+    token: ID!
+    user: User
   }
 `;
 
+// export the typeDefs
 module.exports = typeDefs;

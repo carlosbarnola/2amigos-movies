@@ -1,55 +1,53 @@
+import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import React from 'react';
-import { ApolloProvider } from '@apollo/react-hooks';
-import ApolloClient from 'apollo-boost';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { setContext } from '@apollo/client/link/context';
+import Header from './components/Header';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import NoMatch from './pages/NoMatch';
+import Signup from './pages/Signup';
+import SingleMovie from './pages/SingleMovie';
 
-// import custom components
-import Navbar from './components/Navbar';
-import Homepage from './pages/Homepage';
-import SearchMovies from './pages/SearchMovies';
-import SavedMovies from './pages/SavedMovies';
-import Footer from './components/Footer';
+const httpLink = createHttpLink({
+  uri: '/graphql',
+});
 
-// import GlobalState Provider
-import { FantinderProvider } from "./utils/GlobalState";
-
-// stylesheets
-import './App.scss';
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('id_token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
 
 const client = new ApolloClient({
-    request: operation => {
-        const token = localStorage.getItem('id_token');
-
-        operation.setContext({
-            headers: {
-                authorization: token ? `Bearer ${token}` : ''
-            }
-        })
-    },
-    uri: '/graphql'
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
 });
 
 function App() {
-    return (
-        <ApolloProvider client={client}>
-            <Router>
-                <FantinderProvider>
-                    <div className="app-container">
-                        <div className="app-content">
-                            <Navbar />
-                            <Switch>
-                                <Route exact path='/' component={Homepage} />
-                                <Route exact path='/search' component={SearchMovies} />
-                                <Route exact path='/saved' component={SavedMovies} />
-                                <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
-                            </Switch>
-                        </div>
-                    </div>
-                    <Footer />
-                </FantinderProvider>
-            </Router>
-        </ApolloProvider>
-    );
+  return (
+    <ApolloProvider client={client}>
+      <Router>
+        <div className='flex-column justify-flex-start min-100-vh'>
+          <Header />
+          <div className='container'>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={Signup} />
+              <Route exact path="/movie/:id" component={SingleMovie} />
+
+              <Route component={NoMatch} />
+            </Switch>
+          </div>
+        </div>
+      </Router>
+    </ApolloProvider>
+  );
 }
 
 export default App;
