@@ -5,7 +5,6 @@ const { User, Movies } = require('../models');
 
 
 db.once('open', async () => {
-  await Thought.deleteMany({});
   await User.deleteMany({});
   await Movies.deleteMany({});
 
