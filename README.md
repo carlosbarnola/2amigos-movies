@@ -32,7 +32,11 @@ THEN I the modal closes and I am logged in to the site
 WHEN I am logged in to the site
 THEN in addition to trending recommendations the Navbar menu options include options to search the Movie database, see my saved movies, and Logout
 ## Author
-## saurabh5612
-## carlosbarnola
-## rakky21 	
-## rnaryal
+#saurabh5612
+#carlosbarnola
+#rakky21 	
+# rnaryal
+ ## App Screenshot
+ ![4amigosmovies](https://user-images.githubusercontent.com/83927859/152477865-92a1e764-e1ea-47b5-ba08-7d821268e1dd.png)
+ # Application Deployment
+ https://limitless-wildwood-24017.herokuapp.com/
